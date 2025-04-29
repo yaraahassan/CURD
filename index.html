@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>URL Manager</title>
+  <style>
+    /* شوية تنسيقات بسيطة */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    button {
+      padding: 5px 10px;
+      margin: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Manage URLs</h1>
+
+  <input type="text" id="labelInput" placeholder="URL Label">
+  <input type="text" id="urlInput" placeholder="URL Link">
+  <button onclick="addUrl()">Add</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Label</th>
+        <th>Url</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <!-- الصفوف هتضاف هنا -->
+    </tbody>
+  </table>
+
+  <script>
+    let urls = [];
+    let idCounter = 1; // هنستخدمه عشان نزود ID تلقائي
+
+    function addUrl() {
+      const labelInput = document.getElementById('labelInput');
+      const urlInput = document.getElementById('urlInput');
+
+      const label = labelInput.value.trim();
+      const url = urlInput.value.trim();
+
+      if (label === '' || url === '') {
+        alert('Please fill in both fields.');
+        return;
+      }
+
+      const newEntry = {
+        id: idCounter++,
+        label: label,
+        url: url
+      };
+
+      urls.push(newEntry);
+      renderTable();
+
+      // بعد الإضافة نفرغ الخانات
+      labelInput.value = '';
+      urlInput.value = '';
+    }
+
+    function renderTable() {
+      const tableBody = document.getElementById('tableBody');
+      tableBody.innerHTML = '';
+
+      urls.forEach(entry => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+          <td>${entry.id}</td>
+          <td>${entry.label}</td>
+          <td><a href="${entry.url}" target="_blank">${entry.url}</a></td>
+          <td>
+            <button onclick="editEntry(${entry.id})">Edit</button>
+            <button onclick="deleteEntry(${entry.id})" style="background-color: red; color: white;">Delete</button>
+          </td>
+        `;
+
+        tableBody.appendChild(row);
+      });
+    }
+
+    function editEntry(id) {
+      // Placeholder: ممكن نكملها بعدين
+      alert('Edit feature coming soon!');
+    }
+
+    function deleteEntry(id) {
+      urls = urls.filter(entry => entry.id !== id);
+      renderTable();
+    }
+  </script>
+
+</body>
+</html>
